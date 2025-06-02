@@ -117,16 +117,25 @@ this is not that deep. it’s like when you're bored and take a “what fruit ar
 my entry:
 `;
 
-    function redirectAI(model) {
+     function redirectAI(model) {
       const input = document.getElementById('userInput').value.trim();
       if (!input) return;
 
-      let fullPrompt = model === 'ChatGPT' ? aiChatPrompt + input : claudePrompt + input;
+      let fullPrompt = '';
+      if (model === 'ChatGPT') {
+        fullPrompt = aiChatPrompt + input;
+      } else if (model === 'Claude') {
+        fullPrompt = claudePrompt + input;
+      }
+
       const encodedPrompt = encodeURIComponent(fullPrompt);
 
-      let url = model === 'ChatGPT'
-        ? `https://chat.openai.com/?model=gpt-4&prompt=${encodedPrompt}`
-        : `https://claude.ai/?prompt=${encodedPrompt}`;
+      let url = '';
+      if (model === 'ChatGPT') {
+        url = `https://chat.openai.com/?model=gpt-4&prompt=${encodedPrompt}`;
+      } else if (model === 'Claude') {
+        url = `https://claude.ai/?prompt=${encodedPrompt}`;
+      }
 
       window.open(url, '_blank');
     }
