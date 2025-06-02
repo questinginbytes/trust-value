@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Hero Mirror</title>
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 200px;
+      border: 1px solid black;
+      padding: 1rem;
+      font-size: 1rem;
+      resize: none;
+      background: white;
+      color: black;
+    }
+
+    .ai-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .ai-button {
+      background: none;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .ai-button:hover {
+      background: black;
+      color: white;
+    }
+
+    #response {
+      margin-top: 2rem;
+      max-width: 600px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <textarea
+      id="userInput"
+      placeholder="How do you think people view you? Be detailed. You can even quote multiple people if that helps with a clearer perception prediction—like a trust-value system."
+    ></textarea>
+    <div id="response"></div>
+  </div>
+
+  <div class="ai-buttons">
+    <button class="ai-button" onclick="redirectAI('ChatGPT')">G</button>
+    <button class="ai-button" onclick="redirectAI('Claude')">C</button>
+  </div>
+
+  <script>
+    const aiChatPrompt = `
+this is a little self-exploration experiment i’m doing for fun—just wanna see how people think my hero powers would evolve under the trust value system in the to be hero x anime universe.
+
+don’t make up a character or backstory. don’t try to comfort or roast me. this isn’t about trying to validate or reject anything. just based on vibes, opinions, and perspectives—subjective stuff.
+
+this is not that deep. it’s like when you're bored and take a “what fruit are you?” quiz except i’m asking: “if i was thrown into an anime world where your powers are shaped by how people perceive you—what kinda powers would i have?”
+
+my entry:
+`;
+
+    const claudePrompt = `
+this is a little self-exploration experiment i’m doing for fun—just wanna see how people think my hero powers would evolve under the trust value system in the to be hero x anime universe.
+
+don’t make up a character or backstory. don’t try to comfort or roast me. this isn’t about trying to validate or reject anything. just based on vibes, opinions, and perspectives—subjective stuff.
+
+this is not that deep. it’s like when you're bored and take a “what fruit are you?” quiz except i’m asking: “if i was thrown into an anime world where your powers are shaped by how people perceive you—what kinda powers would i have?”
+
+my entry:
+`;
+
+    function redirectAI(model) {
+      const input = document.getElementById('userInput').value.trim();
+      if (!input) return;
+
+      let fullPrompt = '';
+      if (model === 'ChatGPT') {
+        fullPrompt = aiChatPrompt + input;
+      } else if (model === 'Claude') {
+        fullPrompt = claudePrompt + input;
+      }
+
+      const encodedPrompt = encodeURIComponent(fullPrompt);
+
+      let url = '';
+      if (model === 'ChatGPT') {
+        url = `https://chat.openai.com/?model=gpt-4&prompt=${encodedPrompt}`;
+      } else if (model === 'Claude') {
+        url = `https://claude.ai/?prompt=${encodedPrompt}`;
+      }
+
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
